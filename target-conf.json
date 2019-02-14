@@ -1,0 +1,5 @@
+{
+    "bucket": "indicium-data",
+    "prefix": "raw",
+    "client": "clf/vitra"
+}
