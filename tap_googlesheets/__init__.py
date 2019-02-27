@@ -3,7 +3,7 @@ import os
 import json
 import singer
 from tap_googlesheets import google_sheet
-from datetime import datetime
+from datetime import datetime, timedelta
 from singer import utils, metadata
 from singer import (transform,
                     UNIX_MILLISECONDS_INTEGER_DATETIME_PARSING,
@@ -88,7 +88,7 @@ def sync(config, state, catalog):
                 with Transformer(singer.UNIX_MILLISECONDS_INTEGER_DATETIME_PARSING) as bumble_bee:
                     singer_lines = bumble_bee.transform(metric_line, stream_schema.to_dict())
 
-                singer_lines['date_extraction'] = datetime.now().date().isoformat()
+                singer_lines['date_extraction'] = (datetime.now() - timedelta(days=1)).date().isoformat()
                 singer_lines['product'] = get_fields_with_defaults('product', stream)
                 singer.write_record(stream_id, singer_lines, stream_alias)            
             
